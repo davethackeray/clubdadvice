@@ -1,0 +1,22 @@
+{
+  "enabled": true,
+  "name": "Quality Assurance Check",
+  "description": "Automatically runs comprehensive quality checks after task completion to ensure coding standards, security, performance, and accessibility compliance",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "*.php",
+      "*.html",
+      "*.css",
+      "*.js",
+      "*.sql",
+      "*.md",
+      "tasks.md"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A task has been completed. Please perform comprehensive quality assurance checks:\n\n**Code Quality & Standards:**\n- Run PHP CodeSniffer to check coding standards compliance\n- Review code organization and structure\n- Verify proper documentation and code comments\n\n**Database & Security:**\n- Validate database schema changes for proper indexing and relationships\n- Check for security vulnerabilities (SQL injection, XSS prevention)\n- Verify proper error handling and user input validation\n\n**Frontend & Accessibility:**\n- Ensure responsive design works across mobile, tablet, and desktop\n- Validate accessibility compliance (WCAG 2.1 AA standards)\n- Check CSS and JavaScript for best practices\n\n**Performance & Testing:**\n- Check performance impact of new code (page load times, database queries)\n- Verify test coverage and functionality\n- Review for potential bottlenecks\n\nPlease provide a detailed report of any issues found and recommendations for improvement."
+  }
+}

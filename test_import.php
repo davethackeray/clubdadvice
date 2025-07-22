@@ -1,0 +1,18 @@
+<?php
+require_once 'config.php';
+require_once 'classes/ArticleManager.php';
+
+$jsonData = '{"newsletter_content": [{"id": "pedsdoctalk_kindergarten_readiness_is_not_what_you_think_1","title": "What Reception Teachers *Really* Want Your Child to Know (Hint: It\'s Not Their ABCs)","summary": "Ever find yourself in a cold sweat, convinced your little one is destined for academic doom because they can\'t yet write a sonnet? A former reception teacher shares what she can\'t easily teach a room of 20 five-year-olds, and it\'s a rather brilliant reality check for us all.","full_content": "When it comes to preparing children for \'big school\', parents often get bogged down in a frenzy of flashcards and phonics. But according to former kindergarten (that\'s Reception to us Brits) teacher Susie Allison, the most crucial skills aren\'t academic at all.\\n\\nShe explains that while she can teach a child their letters and numbers relatively quickly, there are core life skills that are much harder to instil in a busy classroom environment. These are the skills that truly set a child up for success.\\n\\nWhat can\'t she teach easily?\\n\\n1.  **How to Win and Lose Gracefully:** Managing the emotional rollercoaster of games and social interactions is a huge learning curve.\\n2.  **How to Ask an Adult for Help:** The confidence to approach a teacher with a question or a problem is fundamental.\\n\\nThis shifts the focus beautifully. Rather than drilling the alphabet, our energy is better spent on nurturing these foundational social and emotional skills at home. After all, a child who can handle disappointment and ask for help is far better equipped for the classroom than one who simply knows their shapes.","content_type": "expert-technique","age_groups": ["preschooler"],"categories": ["educational-support","social-development","emotional-intelligence","communication-skills"],"tags": ["school readiness","kindergarten","reception year","social skills","emotional regulation","teacher perspective"],"urgency": "seasonal","engagement_score": 9,"practical_score": 8,"universal_appeal": 9,"source": {"podcast_title": "The PedsDocTalk Podcast: Child Health, Development & Parenting—From a Pediatrician Mom","episode_title": "The Follow-Up: Kindergarten Readiness Is Not What You Think","episode_url": "https://pdst.fm/e/tracking.swap.fm/track/JhoQDAATtO1l0y8tdKNa/traffic.megaphone.fm/ADL3865311828.mp3?updated=1752606464","media_url": "https://pdst.fm/e/tracking.swap.fm/track/JhoQDAATtO1l0y8tdKNa/traffic.megaphone.fm/ADL3865311828.mp3?updated=1752606464","timestamp": "02:05","host_name": "Dr. Mona Amin"},"related_topics": ["starting school","parenting anxiety","life skills for kids","building confidence"],"actionable_takeaways": ["Shift focus from academic drills to practising social skills through play.","Talk through scenarios of winning and losing in games at home.","Practise asking for help in low-stakes situations, like at the supermarket.","Remind yourself that teachers are experts at teaching academics; your expertise is in teaching life\'s softer skills."],"quote_highlight": "It\'s a lot harder in a group of 20 kindergarteners for me to teach your child how to win and lose graciously... than it is for me to teach your child what a shape looks like.","newsletter_priority": 1,"app_featured": true}]}';
+
+try {
+    $articleManager = new ArticleManager();
+    $result = $articleManager->importFromJSON($jsonData);
+    echo "Import successful!\n";
+    echo "Imported: " . $result['imported'] . " articles\n";
+    if (!empty($result['errors'])) {
+        echo "Errors:\n" . implode("\n", $result['errors']) . "\n";
+    }
+} catch (Exception $e) {
+    echo "Import failed: " . $e->getMessage() . "\n";
+}
+?>

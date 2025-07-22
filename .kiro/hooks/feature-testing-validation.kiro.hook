@@ -1,0 +1,21 @@
+{
+  "enabled": true,
+  "name": "Feature Testing Validation",
+  "description": "Comprehensive testing hook that validates all features, cross-browser compatibility, mobile responsiveness, database performance, email functionality, and security measures at the end of each development phase",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "*.php",
+      "*.js",
+      "*.css",
+      "*.html",
+      "*.sql",
+      "*.md"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Please perform comprehensive feature testing validation for the current development phase. Execute the following testing checklist:\n\n1. **Automated Testing**: Run all automated test suites for completed features in the /tests directory\n2. **Manual Testing**: Test core user workflows including article browsing, newsletter functionality, and database operations\n3. **Cross-Browser Compatibility**: Verify functionality works correctly across Chrome, Firefox, Safari, and Edge browsers\n4. **Mobile Responsiveness**: Test mobile layout, touch interactions, and responsive design elements\n5. **Database Performance**: Test database operations with sample data, check query performance in database_schema.sql implementations\n6. **Email Functionality**: Validate newsletter generation, registration emails, and notification systems\n7. **Security Testing**: Verify authentication mechanisms, authorization controls, and data protection measures in config.php and related security implementations\n8. **Documentation**: Document any discovered issues, limitations, or areas requiring attention\n\nFocus on the PHP backend (index.php, article.php, newsletter-generator.php), JavaScript frontend (js/app.js), database schema, and overall system integration. Provide a comprehensive testing report with pass/fail status for each area."
+  }
+}

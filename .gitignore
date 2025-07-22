@@ -1,0 +1,70 @@
+# Configuration files with sensitive data
+config.php
+
+# User uploaded files
+uploads/
+user_uploads/
+
+# Temporary files
+episodes/*.mp3
+temp/
+cache/
+
+# Log files
+logs/
+*.log
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# PHP specific
+vendor/
+composer.lock
+
+# Database backups
+*.sql.backup
+database_backups/
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Session files
+sessions/
+
+# Error logs
+error_log
+php_errors.log
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Development tools
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Testing
+phpunit.xml
+.phpunit.result.cache
+tests/coverage/
+
+# Deployment
+deploy.php
+deployment/

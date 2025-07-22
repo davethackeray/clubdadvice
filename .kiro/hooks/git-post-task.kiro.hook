@@ -1,0 +1,25 @@
+{
+  "enabled": true,
+  "name": "Git Repository Update",
+  "description": "Automatically manages git operations after completing tasks - stages files, creates commits, pushes changes, tags milestones, and updates documentation",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "*.php",
+      "*.js",
+      "*.css",
+      "*.html",
+      "*.md",
+      "*.sql",
+      "database_schema.sql",
+      "README.md",
+      "TECHNICAL_REQUIREMENTS.md",
+      "DESIGN_SPECIFICATIONS.md"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A task has been completed and files have been modified. Please perform the following git repository update actions:\n\n1. Stage all modified and new files using git add\n2. Create a descriptive commit message that references the task number and requirements\n3. Push changes to the main branch (or appropriate feature branch)\n4. If this represents a significant milestone, create a git tag\n5. Update README.md with any new features and setup instructions if needed\n6. Verify .gitignore properly excludes sensitive files like config.php and user uploads\n7. If database schema changes were made, create deployment notes documenting the changes\n\nFocus on maintaining proper version control practices and ensuring deployment readiness. Make the commit message clear and descriptive of what was accomplished."
+  }
+}
