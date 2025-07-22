@@ -147,20 +147,64 @@ class DadviceApp {
     
     // Fallback share functionality
     fallbackShare(url) {
-        if (navigator.clipboard) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(url).then(() => {
                 this.showNotification('Link copied to clipboard');
+            }).catch(() => {
+                this.legacyCopyToClipboard(url);
             });
         } else {
-            // Create temporary input for older browsers
-            const tempInput = document.createElement('input');
-            tempInput.value = url;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
-            this.showNotification('Link copied to clipboard');
+            this.legacyCopyToClipboard(url);
         }
+    }
+    
+    // Legacy clipboard functionality for older browsers
+    legacyCopyToClipboard(text) {
+        try {
+            // Create temporary textarea for better compatibility
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = text;
+            tempTextarea.style.position = 'fixed';
+            tempTextarea.style.left = '-999999px';
+            tempTextarea.style.top = '-999999px';
+            document.body.appendChild(tempTextarea);
+            tempTextarea.focus();
+            tempTextarea.select();
+            
+            // Try modern approach first
+            if (document.execCommand && document.execCommand('copy')) {
+                this.showNotification('Link copied to clipboard');
+            } else {
+                // Fallback: show the URL for manual copying
+                this.showCopyFallback(text);
+            }
+            
+            document.body.removeChild(tempTextarea);
+        } catch (error) {
+            this.showCopyFallback(text);
+        }
+    }
+    
+    // Final fallback: show URL for manual copying
+    showCopyFallback(url) {
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 10000; max-width: 90%; word-break: break-all;
+        `;
+        modal.innerHTML = `
+            <h3>Copy Link</h3>
+            <p>Please copy this link manually:</p>
+            <input type="text" value="${url}" readonly style="width: 100%; padding: 8px; margin: 10px 0;">
+            <button onclick="this.parentElement.remove()" style="padding: 8px 16px; background: #007cba; color: white; border: none; border-radius: 4px; cursor: pointer;">Close</button>
+        `;
+        document.body.appendChild(modal);
+        
+        // Auto-select the text
+        const input = modal.querySelector('input');
+        input.focus();
+        input.select();
     }
     
     // Lazy loading for images
@@ -296,3 +340,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Export for use in other scripts
 window.DadviceApp = DadviceApp;
+/**
+
+ * User Authentication Dropdown Functionality
+ */
+function toggleUserMenu() {
+    const dropdown = document.getElementById('userDropdown');
+    const toggle = document.querySelector('.user-toggle');
+    
+    if (dropdown && toggle) {
+        const isOpen = dropdown.classList.contains('show');
+        
+        if (isOpen) {
+            dropdown.classList.remove('show');
+            toggle.classList.remove('active');
+        } else {
+            dropdown.classList.add('show');
+            toggle.classList.add('active');
+        }
+    }
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const userDropdown = document.querySelector('.user-dropdown');
+    const dropdown = document.getElementById('userDropdown');
+    const toggle = document.querySelector('.user-toggle');
+    
+    if (userDropdown && dropdown && toggle) {
+        if (!userDropdown.contains(event.target)) {
+            dropdown.classList.remove('show');
+            toggle.classList.remove('active');
+        }
+    }
+});
+
+// Close dropdown on escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        const dropdown = document.getElementById('userDropdown');
+        const toggle = document.querySelector('.user-toggle');
+        
+        if (dropdown && toggle) {
+            dropdown.classList.remove('show');
+            toggle.classList.remove('active');
+        }
+    }
+});

@@ -114,7 +114,11 @@ Before starting implementation, create these Kiro Hooks to maintain code quality
   - Create database migration script to safely add new tables
   - _Requirements: 1.1, 10.1, 10.4_
 
-- [ ] 2. User authentication system
+- [x] 2. User authentication system
+
+
+
+
 
   - Implement user registration with email validation and secure password hashing
   - Create login/logout functionality with session management
@@ -292,14 +296,18 @@ Before starting implementation, create these Kiro Hooks to maintain code quality
 - [ ] 24. Performance optimisation and scaling preparation
   - Implement database query optimisation and indexing for improved performance
   - Add caching layer for frequently accessed content and user data
+  - Consider Redis for rate limiting in production environments
+  - Add performance monitoring and alerting system for response times and resource usage
   - Create automated backup system and disaster recovery procedures
   - Build comprehensive monitoring and alerting system for system health
+  - Implement automated security scanning for vulnerability detection
   - _Requirements: 9.1, 9.2, 9.4, 10.4_
 
 ## Phase 7: Launch Preparation & Polish (Weeks 25-28)
 
 - [ ] 25. Comprehensive testing and quality assurance
   - Create automated test suite covering user authentication, content management, and community features
+  - Implement automated testing framework (PHPUnit) for unit and integration tests
   - Implement load testing to ensure system performance under expected user volumes
   - Add comprehensive error handling and user-friendly error messages
   - Build automated monitoring for system uptime and performance metrics
@@ -308,6 +316,8 @@ Before starting implementation, create these Kiro Hooks to maintain code quality
 - [ ] 26. Security hardening and compliance
   - Implement comprehensive input validation and SQL injection prevention
   - Add CSRF protection and XSS prevention measures
+  - Implement session security headers (httponly, secure, strict mode)
+  - Add comprehensive error logging system for production monitoring
   - Create GDPR compliance features including data export and deletion
   - Build security audit logging and intrusion detection capabilities
   - _Requirements: 10.1, 10.2, 10.3, 10.5_

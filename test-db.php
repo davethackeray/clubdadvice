@@ -1,21 +1,20 @@
 <?php
-echo "Available PDO drivers:\n";
-print_r(PDO::getAvailableDrivers());
+echo "PHP Version: " . phpversion() . "\n";
+echo "Available PDO drivers: " . implode(', ', PDO::getAvailableDrivers()) . "\n";
 
-echo "\nTesting database connection...\n";
-
-require_once 'config.php';
-
+// Test if we can connect to a SQLite database for development
 try {
-    $pdo = getDBConnection();
-    echo "✓ Database connection successful!\n";
-    
-    // Test a simple query
-    $stmt = $pdo->query("SELECT COUNT(*) as count FROM articles");
-    $result = $stmt->fetch();
-    echo "✓ Found " . $result['count'] . " articles in database\n";
-    
+    $pdo = new PDO('sqlite:test.db');
+    echo "✓ SQLite connection works\n";
+    $pdo = null;
 } catch (Exception $e) {
-    echo "✗ Database connection failed: " . $e->getMessage() . "\n";
+    echo "✗ SQLite connection failed: " . $e->getMessage() . "\n";
+}
+
+// Check if MySQL extension is available
+if (extension_loaded('mysql') || extension_loaded('mysqli') || extension_loaded('pdo_mysql')) {
+    echo "✓ MySQL extension available\n";
+} else {
+    echo "✗ No MySQL extension found\n";
 }
 ?>

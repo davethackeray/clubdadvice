@@ -4,6 +4,9 @@ require_once 'classes/ArticleManager.php';
 
 $articleManager = new ArticleManager();
 
+// Check for logout success message
+$loggedOut = isset($_GET['logged_out']) && $_GET['logged_out'] == '1';
+
 // Get filter parameters
 $filters = [
     'age_group' => $_GET['age_group'] ?? '',
@@ -39,33 +42,38 @@ $urgencyTypes = [
     'urgent' => 'Urgent'
 ];
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Google tag (gtag.js) -->
+<?php
+// Set page title for header
+$pageTitle = SITE_NAME . ' - ' . SITE_TAGLINE;
+
+// Additional head content for Google Analytics and AdSense
+$additionalHeadContent = '
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3C3YK1HQGM"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-3C3YK1HQGM');
+  gtag("js", new Date());
+  gtag("config", "G-3C3YK1HQGM");
 </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= SITE_NAME ?> - <?= SITE_TAGLINE ?></title>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7749455827894286" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="assets/css/club-dadvice.css">
-</head>
-<body>
-    <header class="header">
-        <div class="container">
-            <div class="logo"><?= SITE_NAME ?></div>
-            <div class="tagline"><?= SITE_TAGLINE ?></div>
-        </div>
-    </header>
-    
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7749455827894286" crossorigin="anonymous"></script>
+';
+
+// Start output buffering to capture head content
+ob_start();
+echo $additionalHeadContent;
+$headContent = ob_get_clean();
+
+// Include header
+include 'includes/header.php';
+?>
+
     <div class="container">
+        <?php if ($loggedOut): ?>
+            <div style="background: #efe; color: #363; padding: 1rem; border-radius: 4px; border-left: 4px solid #363; margin-bottom: 1rem; text-align: center;">
+                You have been successfully signed out. Thanks for visiting Club Dadvice!
+            </div>
+        <?php endif; ?>
         <!-- Top Banner Ad -->
         <div class="top-banner-ad">
             <ins class="adsbygoogle"
@@ -207,5 +215,5 @@ $urgencyTypes = [
             </div>
         <?php endif; ?>
     </div>
-</body>
-</html>
+
+<?php include 'includes/footer.php'; ?>

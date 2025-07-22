@@ -1,0 +1,18 @@
+{
+  "enabled": true,
+  "name": "Update User Guide",
+  "description": "Monitors PHP files, JavaScript files, and other functional code for changes and ensures the userGuide.md file is updated with detailed usage instructions",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "*.php",
+      "js/*.js",
+      "classes/*.php"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A file containing functionality has been modified. Please review the changes and update the userGuide.md file with detailed usage instructions for any new or updated functionality. If userGuide.md doesn't exist, create it. Focus on providing clear, step-by-step instructions that help users understand how to use the features."
+  }
+}

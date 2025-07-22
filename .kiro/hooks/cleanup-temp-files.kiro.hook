@@ -1,0 +1,22 @@
+{
+  "enabled": true,
+  "name": "Cleanup Temporary Files",
+  "description": "Monitors for creation of temporary testing files, setup files, and one-time task files that should be cleaned up to avoid tech debt and codebase bloat",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "test-*.php",
+      "setup-*.php",
+      "*test*.php",
+      "verify-*.php",
+      "*-test.php",
+      "temp-*.php",
+      "debug-*.php"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A temporary or one-time task file has been created or modified. Please analyze if this file is still needed for the project or if it's a temporary testing/setup file that should be cleaned up to avoid tech debt. If it appears to be a one-time use file that's no longer needed, suggest removing it and explain why it's safe to delete. Consider the file's purpose, recent usage, and whether it serves an ongoing function in the codebase."
+  }
+}

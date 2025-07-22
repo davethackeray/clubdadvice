@@ -42,11 +42,41 @@ if (session_status() === PHP_SESSION_NONE) {
 </head>
 <body>
     <header class="header">
-        <div class="container">
-            <div class="logo">
-                <a href="index.php"><?= SITE_NAME ?></a>
+        <div class="container header-container">
+            <div class="header-main">
+                <div class="logo">
+                    <a href="index.php"><?= SITE_NAME ?></a>
+                </div>
+                <div class="tagline"><?= SITE_TAGLINE ?></div>
             </div>
-            <div class="tagline"><?= SITE_TAGLINE ?></div>
+            
+            <!-- User authentication menu -->
+            <div class="user-menu">
+                <?php
+                // Check if user is logged in
+                $isLoggedIn = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
+                if ($isLoggedIn):
+                    $displayName = $_SESSION['user_display_name'] ?? $_SESSION['user_first_name'] ?? 'User';
+                ?>
+                    <div class="user-dropdown">
+                        <button class="user-toggle" onclick="toggleUserMenu()">
+                            <span class="user-avatar"><?= strtoupper(substr($displayName, 0, 1)) ?></span>
+                            <span class="user-name"><?= htmlspecialchars($displayName) ?></span>
+                            <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div class="user-dropdown-menu" id="userDropdown">
+                            <a href="profile.php">My Profile</a>
+                            <a href="bookmarks.php">Bookmarks</a>
+                            <a href="logout.php">Sign Out</a>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <div class="auth-links">
+                        <a href="login.php" class="auth-link">Sign In</a>
+                        <a href="register.php" class="auth-link auth-link-primary">Join Club</a>
+                    </div>
+                <?php endif; ?>
+            </div>
             
             <!-- Navigation will be added as features are implemented -->
             <nav class="main-nav" style="display: none;">
@@ -60,18 +90,6 @@ if (session_status() === PHP_SESSION_NONE) {
                     <?php endif; ?>
                 </ul>
             </nav>
-            
-            <!-- User menu will be added when authentication is implemented -->
-            <div class="user-menu" style="display: none;">
-                <?php if (function_exists('isLoggedIn') && isLoggedIn()): ?>
-                    <a href="profile.php">Profile</a>
-                    <a href="bookmarks.php">Bookmarks</a>
-                    <a href="logout.php">Logout</a>
-                <?php else: ?>
-                    <a href="login.php">Login</a>
-                    <a href="register.php">Register</a>
-                <?php endif; ?>
-            </div>
         </div>
     </header>
     
