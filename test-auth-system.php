@@ -4,7 +4,7 @@
  * This file tests the user authentication functionality
  */
 
-require_once 'config.php';
+require_once 'config.local.php';
 
 echo "<h1>Club Dadvice Authentication System Test</h1>";
 

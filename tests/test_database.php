@@ -4,7 +4,7 @@
  * Run this file to verify database connectivity and basic functionality
  */
 
-require_once '../config.php';
+require_once '../config-selector.php';
 
 echo "<h1>Club Dadvice - Database Test</h1>\n";
 

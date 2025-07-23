@@ -35,6 +35,11 @@ class EmailService {
             $text_body = $this->htmlToText($html_body);
         }
         
+        // In local development mode, log emails instead of sending
+        if (defined('LOCAL_DEV_MODE') && LOCAL_DEV_MODE) {
+            return $this->logEmailForDevelopment($to, $subject, $html_body, $text_body);
+        }
+        
         // Try SMTP first if configured
         if ($this->use_smtp && $this->isSmtpConfigured()) {
             try {
@@ -353,6 +358,49 @@ class EmailService {
     }
     
     /**
+     * Log email for development instead of sending
+     */
+    private function logEmailForDevelopment($to, $subject, $html_body, $text_body) {
+        $log_entry = [
+            'timestamp' => date('Y-m-d H:i:s'),
+            'to' => $to,
+            'subject' => $subject,
+            'html_body' => $html_body,
+            'text_body' => $text_body
+        ];
+        
+        // Ensure logs directory exists
+        if (!is_dir('logs')) {
+            mkdir('logs', 0755, true);
+        }
+        
+        // Log to file
+        $log_file = 'logs/emails_' . date('Y-m-d') . '.log';
+        $log_message = "\n" . str_repeat('=', 80) . "\n";
+        $log_message .= "EMAIL LOG - " . $log_entry['timestamp'] . "\n";
+        $log_message .= "To: " . $log_entry['to'] . "\n";
+        $log_message .= "Subject: " . $log_entry['subject'] . "\n";
+        $log_message .= "Content:\n" . $log_entry['text_body'] . "\n";
+        $log_message .= "Verification URL: ";
+        
+        // Extract verification URL from HTML if present
+        if (preg_match('/href=[\'"]([^\'"]*(verify-email|reset-password)[^\'"]*)[\'"]/', $html_body, $matches)) {
+            $log_message .= $matches[1] . "\n";
+        } else {
+            $log_message .= "No verification URL found\n";
+        }
+        
+        $log_message .= str_repeat('=', 80) . "\n";
+        
+        file_put_contents($log_file, $log_message, FILE_APPEND | LOCK_EX);
+        
+        // Also log to PHP error log for immediate visibility
+        error_log("DEV EMAIL: To={$to}, Subject={$subject}");
+        
+        return true; // Always return success in development mode
+    }
+
+    /**
      * Test email configuration
      */
     public function testConfiguration() {
@@ -367,7 +415,8 @@ class EmailService {
                 'smtp_host' => $this->smtp_host,
                 'smtp_port' => $this->smtp_port,
                 'from_email' => $this->from_email,
-                'from_name' => $this->from_name
+                'from_name' => $this->from_name,
+                'local_dev_mode' => defined('LOCAL_DEV_MODE') && LOCAL_DEV_MODE
             ];
         } catch (Exception $e) {
             return [

@@ -6,6 +6,20 @@ Club Dadvice is evolving from a simple JSON-fed article site into the definitive
 
 ## Requirements
 
+### Infrastructure Requirement: Database Setup & Testing Validation System
+
+**Reference:** See detailed spec at `.kiro/specs/database-setup-validation/`
+
+**User Story:** As a developer working on the Club Dadvice platform, I want a robust database setup and comprehensive testing validation system, so that I can work frictionlessly across local and production environments while ensuring platform reliability.
+
+#### Acceptance Criteria
+
+1. WHEN setting up a new development environment THEN the system SHALL automatically detect the environment and configure appropriate database settings
+2. WHEN running database setup THEN the system SHALL create all required tables and populate default data without conflicts
+3. WHEN running comprehensive tests THEN the system SHALL validate all application components and generate detailed reports
+4. WHEN switching between environments THEN the system SHALL prevent configuration conflicts and function redeclaration errors
+5. WHEN deploying to production THEN the system SHALL provide migration tools and health monitoring capabilities
+
 ### Requirement 1: Enhanced Content Management & Personalisation
 
 **User Story:** As a dad with children of specific ages, I want personalised content recommendations based on my children's developmental stages, so that I can access the most relevant advice for my current parenting challenges.

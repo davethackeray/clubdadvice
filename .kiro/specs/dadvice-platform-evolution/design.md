@@ -6,6 +6,21 @@ The Club Dadvice platform evolution transforms the current JSON-fed article site
 
 ## Architecture
 
+### Infrastructure Foundation
+
+**Database Setup & Testing Validation System**
+Reference: `.kiro/specs/database-setup-validation/`
+
+This foundational system ensures reliable development and deployment workflows:
+
+- **Configuration Manager**: Automatic environment detection and conflict-free configuration loading
+- **Database Setup Manager**: Automated schema creation and data population
+- **Testing Framework**: Comprehensive validation of all application components
+- **Migration Engine**: Safe database schema evolution and version management
+- **Health Monitor**: Continuous database performance and integrity monitoring
+
+This infrastructure enables frictionless development across local and Hostinger environments while ensuring platform reliability for near-instantaneous user access.
+
 ### High-Level System Architecture
 
 ```

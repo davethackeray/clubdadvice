@@ -2,11 +2,23 @@
 require_once 'config.local.php';
 
 try {
-    $pdo = getDBConnection();
-    echo "✅ Database connection successful!\n";
+    // Connect to MySQL without specifying database
+    $pdo = new PDO("mysql:host=" . DB_HOST, DB_USER, DB_PASS);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    // Create a simple articles table for testing
-    $pdo->exec("DROP TABLE IF EXISTS articles");
+    echo "✅ Connected to MySQL server\n";
+    
+    // Drop and recreate the database
+    $pdo->exec("DROP DATABASE IF EXISTS " . DB_NAME);
+    echo "🗑️ Dropped database " . DB_NAME . "\n";
+    
+    $pdo->exec("CREATE DATABASE " . DB_NAME);
+    echo "✅ Created database " . DB_NAME . "\n";
+    
+    $pdo->exec("USE " . DB_NAME);
+    echo "✅ Using database " . DB_NAME . "\n";
+    
+    // Now create tables
     $pdo->exec("
         CREATE TABLE articles (
             id VARCHAR(255) PRIMARY KEY,
@@ -20,8 +32,6 @@ try {
     ");
     echo "✅ Created articles table\n";
     
-    // Create age_groups table
-    $pdo->exec("DROP TABLE IF EXISTS age_groups");
     $pdo->exec("
         CREATE TABLE age_groups (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -31,8 +41,6 @@ try {
     ");
     echo "✅ Created age_groups table\n";
     
-    // Create categories table
-    $pdo->exec("DROP TABLE IF EXISTS categories");
     $pdo->exec("
         CREATE TABLE categories (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -42,8 +50,6 @@ try {
     ");
     echo "✅ Created categories table\n";
     
-    // Create tags table
-    $pdo->exec("DROP TABLE IF EXISTS tags");
     $pdo->exec("
         CREATE TABLE tags (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -58,28 +64,21 @@ try {
         ('preschooler', 'Preschooler (3-5 years)'),
         ('school-age', 'School Age (5-11 years)')
     ");
-    echo "✅ Inserted age groups\n";
     
     $pdo->exec("INSERT INTO categories (name, display_name) VALUES 
         ('sleep-solutions', 'Sleep Solutions'),
         ('behaviour-management', 'Behaviour Management'),
         ('educational-support', 'Educational Support')
     ");
-    echo "✅ Inserted categories\n";
     
     $pdo->exec("INSERT INTO articles (id, title, summary, full_content) VALUES 
-        ('test-1', 'Sample Article 1', 'This is a test article', 'Full content here...'),
-        ('test-2', 'Sample Article 2', 'Another test article', 'More full content...'),
-        ('test-3', 'Sample Article 3', 'Third test article', 'Even more content...')
+        ('test-1', 'Getting Your Toddler to Sleep', 'Practical sleep strategies', 'Detailed content about sleep routines...'),
+        ('test-2', 'Managing Toddler Tantrums', 'Expert tantrum management', 'Full guide to handling meltdowns...'),
+        ('test-3', 'Educational Activities for Preschoolers', 'Fun learning activities', 'Creative ways to support learning...')
     ");
-    echo "✅ Inserted sample articles\n";
     
-    echo "\n🎉 Database setup completed successfully!\n";
-    
-    // Verify the setup
-    $stmt = $pdo->query("SELECT COUNT(*) as count FROM articles");
-    $count = $stmt->fetch()['count'];
-    echo "📊 Articles in database: $count\n";
+    echo "✅ Inserted sample data\n";
+    echo "\n🎉 Database reset and setup completed successfully!\n";
     
 } catch (Exception $e) {
     echo "❌ Error: " . $e->getMessage() . "\n";
